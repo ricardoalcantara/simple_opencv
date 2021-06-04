@@ -1,0 +1,3 @@
+[submodule "thirdparty/screen_capture_lite"]
+	path = thirdparty/screen_capture_lite
+	url = https://github.com/smasherprog/screen_capture_lite
