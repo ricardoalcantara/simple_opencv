@@ -4,6 +4,7 @@
 #include <functional>
 
 #include <opencv4/opencv2/highgui.hpp>
+#include <opencv4/opencv2/imgproc.hpp>
 
 Tracker::Tracker()
 {
@@ -80,4 +81,10 @@ void Tracker::Run()
         cv::imshow(wName, GetLastMatImage());
         cv::waitKey(1);
     }
+}
+
+void Tracker::Test()
+{
+    spdlog::info("Sandbox xD");
+    
 }

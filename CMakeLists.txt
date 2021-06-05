@@ -15,6 +15,9 @@ find_package (Threads REQUIRED)
 
 find_package (spdlog REQUIRED)
 
+find_package(glfw3 REQUIRED)
+find_package(OpenGL REQUIRED)
+
 include_directories(${PROJECT_NAME}
     include
     ./thirdparty/screen_capture_lite/include
@@ -33,6 +36,10 @@ ${X11_Xfixes_LIB}
 ${X11_XTest_LIB}
 ${X11_Xinerama_LIB}
 
+glfw ${GLFW_LIBRARIES}
+OpenGL::GL
+
+ImGui
 )
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

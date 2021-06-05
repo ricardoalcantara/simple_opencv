@@ -1,3 +1,6 @@
 [submodule "thirdparty/screen_capture_lite"]
 	path = thirdparty/screen_capture_lite
 	url = https://github.com/smasherprog/screen_capture_lite
+[submodule "thirdparty/imgui"]
+	path = thirdparty/imgui
+	url = https://github.com/ocornut/imgui.git

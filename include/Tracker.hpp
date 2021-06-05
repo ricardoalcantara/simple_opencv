@@ -12,7 +12,8 @@ public:
     ~Tracker();
     void Run();
     void Initialize();
-
+    void Test();
+    
 private:
     std::shared_ptr<SL::Screen_Capture::IScreenCaptureManager> framgrabber;
     cv::String wName;
