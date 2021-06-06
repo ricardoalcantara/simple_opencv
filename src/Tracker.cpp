@@ -8,21 +8,20 @@
 
 Tracker::Tracker()
 {
-}
-
-void Tracker::Initialize()
-{
     spdlog::debug("Contructor");
 
     captureConfiguration = SL::Screen_Capture::CreateCaptureConfiguration(std::bind(&Tracker::CreateCaptureConfiguration, this));
     captureConfiguration->onNewFrame(std::bind(&Tracker::OnFrame, this, std::placeholders::_1, std::placeholders::_2));
+}
+
+void Tracker::StartCapturing()
+{
     framgrabber = captureConfiguration->start_capturing();
-
-    cv::startWindowThread();
-    cv::namedWindow(wName, cv::WINDOW_NORMAL);
-    cv::resizeWindow(wName, size / 2);
-
     framgrabber->setFrameChangeInterval(std::chrono::milliseconds(34));
+
+    // cv::startWindowThread();
+    // cv::namedWindow(wName, cv::WINDOW_NORMAL);
+    // cv::resizeWindow(wName, size / 2);
 }
 
 Tracker::~Tracker()

@@ -26,6 +26,7 @@ include_directories(${PROJECT_NAME}
 add_executable(${PROJECT_NAME} 
     src/main.cpp 
     src/Tracker.cpp
+    src/App.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}

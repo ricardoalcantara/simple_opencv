@@ -11,7 +11,7 @@ public:
     Tracker();
     ~Tracker();
     void Run();
-    void Initialize();
+    void StartCapturing();
     void Test();
     
 private:
