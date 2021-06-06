@@ -23,23 +23,29 @@ include_directories(${PROJECT_NAME}
     ./thirdparty/screen_capture_lite/include
 )
 
-add_executable(${PROJECT_NAME} src/main.cpp src/Tracker.cpp)
+add_executable(${PROJECT_NAME} 
+    src/main.cpp 
+    src/Tracker.cpp
+)
 
 target_link_libraries(${PROJECT_NAME}
-screen_capture_lite
-spdlog::spdlog
+    screen_capture_lite
+    spdlog::spdlog
 
-${OpenCV_LIBS}
+    ${OpenCV_LIBS}
 
-${X11_LIBRARIES}
-${X11_Xfixes_LIB}
-${X11_XTest_LIB}
-${X11_Xinerama_LIB}
+    dl
+    ${X11_LIBRARIES}
+    ${X11_Xfixes_LIB}
+    ${X11_XTest_LIB}
+    ${X11_Xinerama_LIB}
 
-glfw ${GLFW_LIBRARIES}
-OpenGL::GL
+    glad
 
-ImGui
+    glfw ${GLFW_LIBRARIES}
+    ${OPENGL_gl_LIBRARY}
+
+    ImGui
 )
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

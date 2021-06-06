@@ -1,5 +1,5 @@
 // #include "Tracker.hpp"
-// #include <spdlog/spdlog.h>
+#include <spdlog/spdlog.h>
 
 // int main(int argc, char const *argv[])
 // {
@@ -13,18 +13,27 @@
 //     t.Test();
 //     return 0;
 // }
+#include "imgui/imgui.h"
+#include "imgui/backends/imgui_impl_glfw.h"
+#include "imgui/backends/imgui_impl_opengl3.h"
 
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "imgui.h"
-#include "backends/imgui_impl_glfw.h"
 
 int main(void)
 {
-    GLFWwindow* window;
+    GLFWwindow *window;
 
     /* Initialize the library */
     if (!glfwInit())
+    {
+        spdlog::error("Failed to initialize GLFW");
         return -1;
+    }
+
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
@@ -36,14 +45,19 @@ int main(void)
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
-
-        // Setup Dear ImGui context
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        spdlog::error("Failed to initialize GLAD");
+        return -1;
+    }
+    
+    //     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO &io = ImGui::GetIO();
     // Setup Platform/Renderer bindings
     ImGui_ImplGlfw_InitForOpenGL(window, true);
-    // ImGui_ImplOpenGL3_Init("3.3");
+    ImGui_ImplOpenGL3_Init(NULL);
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
 
@@ -51,7 +65,20 @@ int main(void)
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        // feed inputs to dear imgui, start new frame
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+        // Any application code here
+        ImGui::Text("Hello, world!");
+
+        // End of frame: render Dear ImGui
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
@@ -59,6 +86,10 @@ int main(void)
         /* Poll for and process events */
         glfwPollEvents();
     }
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
     glfwTerminate();
     return 0;
