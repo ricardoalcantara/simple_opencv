@@ -7,6 +7,3 @@
 [submodule "thirdparty/imgui/imgui"]
 	path = thirdparty/imgui/imgui
 	url = https://github.com/ocornut/imgui.git
-[submodule "thirdparty/gl3w"]
-	path = thirdparty/gl3w
-	url = https://github.com/skaslev/gl3w
