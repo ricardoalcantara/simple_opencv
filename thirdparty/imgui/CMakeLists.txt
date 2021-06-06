@@ -12,6 +12,7 @@ add_library(${PROJECT_NAME} STATIC
 )
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC PUBLIC IMGUI_IMPL_OPENGL_LOADER_GLAD)
+# target_compile_definitions(${PROJECT_NAME} PUBLIC PUBLIC IMGUI_IMPL_OPENGL_LOADER_GL3W)
 
 target_include_directories(${PROJECT_NAME}
 PUBLIC ./

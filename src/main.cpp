@@ -17,6 +17,7 @@
 #include "imgui/backends/imgui_impl_glfw.h"
 #include "imgui/backends/imgui_impl_opengl3.h"
 
+// #include <GL/gl3w.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -45,12 +46,25 @@ int main(void)
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
+
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         spdlog::error("Failed to initialize GLAD");
         return -1;
     }
-    
+
+    // if (gl3wInit())
+    // {
+    //     spdlog::error("failed to initialize OpenGL");
+    //     return -1;
+    // }
+    // if (!gl3wIsSupported(3, 2))
+    // {
+    //     spdlog::error("OpenGL 3.2 not supported");
+    //     return -1;
+    // }
+    spdlog::info("OpenGL {}, GLSL {}", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
+
     //     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
