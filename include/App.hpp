@@ -2,8 +2,14 @@
 #define APP_H
 
 #include "Exception.hpp"
+#include "Window.hpp"
+#include "Tracker.hpp"
 
-class GLFWwindow;
+#include <memory>
+
+// #include <GL/gl3w.h>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 class App
 {
@@ -18,12 +24,12 @@ public:
 public:
     App();
     ~App();
-    void Initialize();
     void Run();
     void AddImGui();
 
 private:
-    GLFWwindow *window;
+    std::unique_ptr<Window> window;
+    Tracker tracker;
 
 private:
     void RenderUI();

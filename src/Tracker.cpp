@@ -2,26 +2,43 @@
 
 #include <spdlog/spdlog.h>
 #include <functional>
+#include <memory>
 
 #include <opencv4/opencv2/highgui.hpp>
 #include <opencv4/opencv2/imgproc.hpp>
 
 Tracker::Tracker()
 {
-    spdlog::debug("Contructor");
+    spdlog::debug("Tracker Contructor");
 
     captureConfiguration = SL::Screen_Capture::CreateCaptureConfiguration(std::bind(&Tracker::CreateCaptureConfiguration, this));
     captureConfiguration->onNewFrame(std::bind(&Tracker::OnFrame, this, std::placeholders::_1, std::placeholders::_2));
 }
 
+bool Tracker::IsCapturing()
+{
+    return framgrabber && !framgrabber->isPaused();
+}
+
 void Tracker::StartCapturing()
 {
-    framgrabber = captureConfiguration->start_capturing();
-    framgrabber->setFrameChangeInterval(std::chrono::milliseconds(34));
+    if (framgrabber)
+    {
+        framgrabber->resume();
+    }
+    else
+    {
+        framgrabber = captureConfiguration->start_capturing();
+        framgrabber->setFrameChangeInterval(std::chrono::milliseconds(100));
+    }
+}
 
-    // cv::startWindowThread();
-    // cv::namedWindow(wName, cv::WINDOW_NORMAL);
-    // cv::resizeWindow(wName, size / 2);
+void Tracker::StopCapturing()
+{
+    if (framgrabber)
+    {
+        framgrabber->pause();
+    }
 }
 
 Tracker::~Tracker()
@@ -63,27 +80,21 @@ void Tracker::OnFrame(const SL::Screen_Capture::Image &img, const SL::Screen_Cap
     auto width = SL::Screen_Capture::Width(img);
     auto height = SL::Screen_Capture::Height(img);
 
+    // Todo, better imgBuffer allocation
     auto size = width * height * sizeof(SL::Screen_Capture::ImageBGRA);
-    auto imgbuffer(std::make_unique<unsigned char[]>(size));
+    unsigned char *imgbuffer = (unsigned char *)malloc(size);
 
-    ExtractAndConvertToRGBA(img, imgbuffer.get(), size);
-    auto mi = cv::Mat(cv::Size(width, height), CV_8UC4, imgbuffer.get()); //Mat(Size(Height, Width), Bpp > 24 ? CV_8UC4 : CV_8UC3, &Pixels[0]);
-    StoreMatImage(mi);
+    ExtractAndConvertToRGBA(img, imgbuffer, size);
+    imageTexture.SetBuffer(width, height, imgbuffer);
 }
 
 void Tracker::Run()
 {
     spdlog::debug("Run");
 
-    while(true)
+    while (true)
     {
         cv::imshow(wName, GetLastMatImage());
         cv::waitKey(1);
     }
-}
-
-void Tracker::Test()
-{
-    spdlog::info("Sandbox xD");
-    
 }

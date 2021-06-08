@@ -27,6 +27,8 @@ add_executable(${PROJECT_NAME}
     src/main.cpp 
     src/Tracker.cpp
     src/App.cpp
+    src/Window.cpp
+    src/Texture.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}

@@ -4,14 +4,19 @@
 #include "ScreenCapture.h"
 #include <opencv4/opencv2/core.hpp>
 // #include <vector>
+#include "Texture.hpp"
 
 class Tracker
 {
 public:
+    Texture imageTexture;
+public:
     Tracker();
     ~Tracker();
     void Run();
+    bool IsCapturing();
     void StartCapturing();
+    void StopCapturing();
     void Test();
     
 private:
